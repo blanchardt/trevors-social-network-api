@@ -77,6 +77,10 @@ module.exports = {
         { new: true }
       );
 
+      if (!user) {
+        res.status(404).json({ message: 'No user with that id' });
+      }
+
       res.json({ message: 'thought deleted' });
     } catch (err) {
       res.status(500).json(err);

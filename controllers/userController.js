@@ -2,7 +2,7 @@ const { User, Thought } = require('../models');
 
 module.exports = {
   //Get all users
-  async getStudents(req, res) {
+  async getUsers(req, res) {
     try {
       const users = await User.find();
       res.json(users);
@@ -60,7 +60,7 @@ module.exports = {
   //Delete a user and their thoughts
   async deleteUser(req, res) {
     try {
-      const user = await User.findOneAndDelete({ _id: req.params.studentId });
+      const user = await User.findOneAndDelete({ _id: req.params.userId });
 
       if (!user) {
         return res.status(404).json({ message: 'No user with this id!' });
@@ -114,7 +114,7 @@ module.exports = {
   },
 
   //Remove user from a user's friend list
-  async removeAssignment(req, res) {
+  async removeFriend(req, res) {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },

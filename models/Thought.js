@@ -29,10 +29,10 @@ const thoughtSchema = new Schema(
 );
 
 //Create a virtual property that returns the amount of reactoins the thought has.
-postSchema.virtual('reactionCount').get(function () {
+thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 });
 
-const Course = model('thought', courseSchema);
+const Thought = model('thought', thoughtSchema);
 
-module.exports = Course;
+module.exports = Thought;

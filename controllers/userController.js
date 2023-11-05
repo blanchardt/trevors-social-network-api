@@ -109,8 +109,6 @@ module.exports = {
   //Remove user from a user's friend list
   async removeFriend(req, res) {
     try {
-      console.log(req.params.userId);
-      console.log(req.params.friendId);
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $pull: { friends: req.params.friendId } },

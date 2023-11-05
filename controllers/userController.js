@@ -80,15 +80,23 @@ module.exports = {
   //Add auser to another user's friend list
   async createFriend(req, res) {
     try {
-      console.log(req.params.friendId);
-      console.log(req.params.userId);
-      const user = await Video.findOneAndUpdate(
+      const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friends: { friendId: req.params.friendId } } },
+        { $addToSet: { friends: { _id: req.params.friendId } } },
         { runValidators: true, new: true }
       )
 
       if (!user) {
+        return res.status(404).json({ message: 'No user with this id!' });
+      }
+      
+      const user2 = await User.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $addToSet: { friends: { _id: req.params.userId } } },
+        { runValidators: true, new: true }
+      )
+
+      if (!user2) {
         return res.status(404).json({ message: 'No user with this id!' });
       }
 
@@ -101,16 +109,26 @@ module.exports = {
   //Remove user from a user's friend list
   async removeFriend(req, res) {
     try {
+      console.log(req.params.userId);
+      console.log(req.params.friendId);
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friends: { friendId: req.params.friendId } } },
+        { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       );
 
       if (!user) {
-        return res
-          .status(404)
-          .json({ message: 'No user found with that id' });
+        return res.status(404).json({ message: 'No user found with that id' });
+      }
+      
+      const user2 = await User.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $pull: { friends: req.params.userId } },
+        { runValidators: true, new: true }
+      );
+
+      if (!user2) {
+        return res.status(404).json({ message: 'No user found with that id' });
       }
 
       res.json(user);

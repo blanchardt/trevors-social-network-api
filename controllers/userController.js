@@ -125,10 +125,6 @@ module.exports = {
         { runValidators: true, new: true }
       );
 
-      if (!user2) {
-        return res.status(404).json({ message: 'No user found with that id' });
-      }
-
       res.json(user);
     } catch (err) {
       res.status(500).json(err);

@@ -24,11 +24,11 @@ connection.once('open', async () => {
   //Create the first 10 users and add them in the users array
   for (let i = 0; i < 10; i++) {
 
-    const userName = getUserName(i);
+    const username = getUserName(i);
     const email = getEmail(i);
 
     users.push({
-      userName,
+      username,
       email,
     });
   }
